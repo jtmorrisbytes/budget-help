@@ -5,7 +5,7 @@ console.log(DATABASE_URL);
 console.log(process.env);
 massive({ connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } })
   .then(async (db) => {
-    await db.seed();
+    // await db.seed();
     // try {
     //   await db.seed_income();
     // } catch (e) {
@@ -27,6 +27,8 @@ massive({ connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } })
     //   console.error("error seeding expenses", e);
     //   console.error(e);
     // }
+    console.log(await db.listFunctions());
+    console.log(await db.f_get_all_calendars(0));
   })
   .catch((error) => {
     console.error("Database connection failed:");
