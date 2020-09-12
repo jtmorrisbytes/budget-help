@@ -1,0 +1,1 @@
+function getSupportedLocales(req,res)
