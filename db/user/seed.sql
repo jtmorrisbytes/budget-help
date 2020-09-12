@@ -2,12 +2,12 @@ DROP TABLE IF EXISTS users CASCADE;
 
 CREATE TABLE users (
     user_id SERIAL PRIMARY KEY,
-    locale_id INTEGER REFERENCES locales(locale_id),
-    calendar_id INTEGER REFERENCES calendars(calendar_id),
+    locale_id INTEGER REFERENCES locales(locale_id) NOT NULL,
+    calendar_id INTEGER REFERENCES calendars(calendar_id) NOT NULL,
     username TEXT UNIQUE NOT NULL,
     --locale INTEGER REFERENCES locales(locale_id),
-    timezone TEXT,
-    name TEXT
+    timezone TEXT NOT NULL,
+    name TEXT NOT NULL
 );
 
 

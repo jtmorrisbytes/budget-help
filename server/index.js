@@ -36,6 +36,7 @@ const server = express();
 const { router } = require("./routes");
 
 server.use(morgan("dev"));
+server.use(express.json());
 server.use("/api/", router);
 const { DATABASE_URL } = process.env;
 console.log(DATABASE_URL);

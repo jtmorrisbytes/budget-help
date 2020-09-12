@@ -15,18 +15,28 @@ router.get("/user/:username([a-zA-Z0-9]+)", async (req, res) => {
 });
 
 router.put("/user", async (req, res) => {
-  let { username, password, localeId, calendarId } = req.body;
+  let {
+    userId,
+    username,
+    password,
+    localeId,
+    timezone,
+    calendarId,
+    name,
+  } = req.body;
   try {
-    let [user] = await (req.app.db?.f_create_user || req.app.db?.create_user)(
-      localeId,
-      calendarId,
-      username,
-      //   password,
-      name
-    );
-    res.sendStatus(201);
+    (await req.app.get("db").f_get_user(userId || username))[0]
+      ? res.status(501).send("user update not implemented")
+      : res
+          .status(201)
+          .send(
+            await req.app
+              .get("db")
+              .f_create_user(localeId, calendarId, username, timezone, name)
+          );
   } catch (e) {
+    let { table, column, code, detail, where } = e;
     console.error(e);
-    res.status(500).send(e);
+    res.status(500).send({ code, detail, table, column, where });
   }
 });

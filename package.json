@@ -4,5 +4,10 @@
   "description": "",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "massive": "^6.6.0",
+    "toml": "^3.0.0"
+  }
 }
