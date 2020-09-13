@@ -8,11 +8,9 @@ async function getLocale(localeId = 0) {
   return locales[localeId];
 }
 async function getLocaleByName(localeName) {
-  return (
-    locales.find((locale) => {
-      return locale.name === localeName;
-    }) || null
-  );
+  return locales.filter((locale) => {
+    return locale.name === localeName;
+  });
 }
 async function getLocaleIdByName(localeName = "") {
   let localeId = locales.findIndex((locale) => {
