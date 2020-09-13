@@ -12,5 +12,6 @@ massive({
 }).then((db) => {
   // require("./languages/seed")(db);
   require("./locales/seed")(db);
+  require("./timezones/seed")(db);
   require("./calendars/seed")(db);
 });
