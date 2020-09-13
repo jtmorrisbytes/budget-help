@@ -14,10 +14,8 @@ function init(callback, options) {
     ...options,
   };
   massive(options).then((db) => {
-    db = { ...locales, ...db };
-    console.log(db);
-
-    callback?.(db);
+    db.locales = { ...db.locales, ...locales };
+    callback(db);
   });
 }
 module.exports = { init, locales };

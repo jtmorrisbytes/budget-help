@@ -33,7 +33,9 @@ const express = require("express");
 const morgan = require("morgan");
 const server = express();
 
-const { router } = require("./routes");
+const database = require("../db");
+
+const router = require("./controllers");
 
 server.use(morgan("dev"));
 server.use(express.json());
@@ -41,14 +43,9 @@ server.use("/api/", router);
 const { DATABASE_URL } = process.env;
 console.log(DATABASE_URL);
 // console.log(process.env);
-massive({ connectionString: DATABASE_URL, ssl: { rejectUnauthorized: false } })
-  .then(async (db) => {
-    server.set("db", db);
-    server.listen(8080, "localhost", () => {
-      console.log("server is ready on localhost:8080");
-    });
-  })
-  .catch((error) => {
-    console.error("Database connection failed, or error occurred");
-    console.error(error);
+database.init((db) => {
+  server.set("db", db);
+  server.listen(8080, "localhost", () => {
+    console.log("server is ready on localhost:8080");
   });
+});
