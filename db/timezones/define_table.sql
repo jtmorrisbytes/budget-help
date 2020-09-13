@@ -1,7 +1,10 @@
-DROP TABLE IF EXISTS timezones;
-CREATE TABLE timezone (
+BEGIN;
+DROP TABLE IF EXISTS timezones CASCADE;
+CREATE TABLE timezones (
     tz_id SERIAL PRIMARY KEY,
     name TEXT,
     abbrev TEXT,
-    OFFSET
-)
+    tz_offset DECIMAL
+);
+COMMIT;
+END;

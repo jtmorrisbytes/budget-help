@@ -6,7 +6,7 @@ CREATE TABLE users (
     calendar_id INTEGER REFERENCES calendars(calendar_id) NOT NULL,
     username TEXT UNIQUE NOT NULL,
     --locale INTEGER REFERENCES locales(locale_id),
-    timezone TEXT NOT NULL,
+    tz_id INTEGER REFERENCES timezones(tz_id) NOT NULL,
     name TEXT NOT NULL
 );
 
@@ -19,7 +19,7 @@ CREATE TYPE public.r_resolved_user AS (
         calendar_id INTEGER,
         calendar TEXT,
         username TEXT,
-        timezone TEXT,
+        tz_id TEXT,
         name TEXT
      );
 
@@ -77,15 +77,15 @@ CREATE FUNCTION f_create_user (
     p_locale_id INTEGER,
     p_calendar_id INTEGER,
     p_username TEXT,
-    p_timezone TEXT,
+    p_timezone_id INTEGER,
     p_name TEXT
 )
 RETURNS SETOF users
 LANGUAGE plpgsql
 AS $$
 BEGIN
-    RETURN QUERY INSERT INTO users (locale_id, calendar_id, username, timezone, name) 
-    VALUES(p_locale_id, p_calendar_id, p_username, p_timezone, p_name) RETURNING *;
+    RETURN QUERY INSERT INTO users (locale_id, calendar_id, username, tz_id, name) 
+    VALUES(p_locale_id, p_calendar_id, p_username, p_timezone_id, p_name) RETURNING *;
 END; $$;
 
 
@@ -93,4 +93,3 @@ END; $$;
 
 
 -- sample data
-INSERT INTO users (locale_id, calendar_id, username, timezone, name) VALUES(0,0,'jtmorrisbytes','UTC-6', 'Jordan');
