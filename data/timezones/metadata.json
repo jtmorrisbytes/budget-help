@@ -150,9 +150,39 @@
     "abbrev": "WAST, WADT, CCT",
     "labels": []
   },
-  { "name": "UTC+09", "offset": 9, "tzd": "+9:00", "labels": [] },
-  { "name": "UTC+09:30", "offset": 9.5, "tzd": "+9:30", "labels": [] },
-  { "name": "UTC+10", "offset": 10, "tzd": "+10:00", "labels": [] },
-  { "name": "UTC+11", "offset": 11, "tzd": "+11:00", "labels": [] },
-  { "name": "UTC+12", "offset": 12, "tzd": "+12:00", "labels": [] }
+  {
+    "name": "UTC+09",
+    "offset": 9,
+    "tzd": "+9:00",
+    "abbrev": "JST",
+    "labels": []
+  },
+  {
+    "name": "UTC+09:30",
+    "offset": 9.5,
+    "tzd": "+9:30",
+    "abbrev": "ACT",
+    "labels": []
+  },
+  {
+    "name": "UTC+10",
+    "offset": 10,
+    "tzd": "+10:00",
+    "abbrev": "EAST, CHST, CHUT, DDUT, PGT, VLAT",
+    "labels": []
+  },
+  {
+    "name": "UTC+11",
+    "offset": 11,
+    "tzd": "+11:00",
+    "abbrev": null,
+    "labels": []
+  },
+  {
+    "name": "UTC+12",
+    "offset": 12,
+    "tzd": "+12:00",
+    "abbrev": null,
+    "labels": []
+  }
 ]
