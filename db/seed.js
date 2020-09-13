@@ -13,6 +13,6 @@ massive({
   // require("./languages/seed")(db);
   await require("./locales/seed")(db);
   await require("./timezones/seed")(db);
-  // await require("./calendars/seed")(db);
+  await require("./calendars/seed")(db);
   // await require("./user/seed")(db);
 });
