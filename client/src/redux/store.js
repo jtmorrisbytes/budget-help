@@ -1,7 +1,10 @@
-const { createStore, combineReducers } = require("redux");
+import { createStore, combineReducers, applyMiddleware } from "redux";
+import thunk from "redux-thunk";
+import * as user from "./user";
+import * as locales from "./locales";
+export const store = createStore(
+  combineReducers({ user: user.reducer, locales: locales.reducer }),
+  applyMiddleware(thunk)
+);
 
-const { userReducer } = require("./user");
-
-let store = createStore(combineReducers({ user: userReducer }));
-
-module.exports = { default: store, store };
+export default store;

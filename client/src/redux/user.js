@@ -5,7 +5,7 @@ const initialState = {
   calendar: null,
 };
 
-function userReducer(
+export function reducer(
   state = initialState,
   action = { type: "", payload: null }
 ) {
@@ -14,5 +14,4 @@ function userReducer(
       return state;
   }
 }
-
-module.exports = { default: userReducer, userReducer };
+export default reducer;

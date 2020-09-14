@@ -7,17 +7,26 @@ import { connect } from "react-redux";
 import { Redirect, withRouter } from "react-router-dom";
 import Login from "./components/Auth/Login/Login";
 import Register from "./components/Auth/Register/Register";
+
+import strings from "./App.strings.json";
+
 function App(props) {
-  console.log("router props", props);
-  if (
-    props.user.userId == null &&
-    !(
-      props.location.pathname == Login.route ||
-      props.location.pathname == Register.route
-    )
-  ) {
-    return <Redirect to={Login.route}></Redirect>;
-  }
+  if (props.locales.loading) {
+    return (
+      <div className="App">
+        {(strings[props.locales.localeId] || {})["app.loading"]}
+      </div>
+    );
+  } else if (props.locales.length)
+    if (
+      props.user.userId == null &&
+      !(
+        props.location.pathname == Login.route ||
+        props.location.pathname == Register.route
+      )
+    ) {
+      return <Redirect to={Login.route}></Redirect>;
+    }
   return (
     <div className="App">
       <header className="App-header">hello from header</header>
@@ -26,7 +35,7 @@ function App(props) {
   );
 }
 function mapStateToProps(state = {}) {
-  return { user: state.user };
+  return { user: state.user, locales: state.locales };
 }
 const mapDispatchToProps = {};
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
