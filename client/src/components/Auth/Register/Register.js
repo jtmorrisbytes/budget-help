@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import Axios from "axios";
 
 import { connect } from "react-redux";
 
@@ -14,6 +15,7 @@ class Register extends React.Component {
     localeId: 0,
     username: "",
     calendarId: 0,
+    error: null,
   };
   constructor(props) {
     super(props);
@@ -21,6 +23,25 @@ class Register extends React.Component {
     this.handlePersonNameInput = this.handlePersonNameInput.bind(this);
     this.updateLocaleId = this.updateLocaleId.bind(this);
     this.handleUsernameInput = this.handleUsernameInput.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    let data = {
+      name: this.state.name,
+      localeId: this.state.calendarId,
+      calendarId: this.state.calendarId,
+      username: this.state.username,
+    };
+    this.setState({ ...this.state, loading: true }, () => {
+      Axios.put("/api/user", data)
+        .then((response) => {
+          console.log(response);
+        })
+        .finally(() => {
+          this.setState({ ...this.state, loading: false });
+        });
+    });
   }
   handlePersonNameInput(event) {
     this.setState({ ...this.state, [event.target.name]: event.target.value });
@@ -34,7 +55,7 @@ class Register extends React.Component {
   render() {
     return (
       <div id={"Register"}>
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <label htmlFor="Register_personName">
             {
               (strings[this.props.locales.localeId] || {})[
@@ -63,7 +84,7 @@ class Register extends React.Component {
             value={this.state.username}
             onChange={this.handleUsernameInput}
           />
-          <button type="submit"></button>
+          <button type="submit">Register</button>
         </form>
       </div>
     );

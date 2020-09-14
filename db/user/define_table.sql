@@ -19,7 +19,7 @@ CREATE TYPE public.r_resolved_user AS (
         calendar_id INTEGER,
         calendar TEXT,
         username TEXT,
-        tz_id TEXT,
+        tz_id INTEGER,
         name TEXT
      );
 
@@ -40,7 +40,7 @@ BEGIN
             calendar_id,
             (SELECT name from calendars where users.calendar_id = calendar_id) "calendar",
              username,
-             timezone, 
+             tz_id, 
              name 
     FROM users
     WHERE username = p_username);
@@ -63,7 +63,7 @@ BEGIN
             calendar_id,
             (SELECT name from calendars where users.calendar_id = calendar_id) "calendar",
              username,
-             timezone, 
+             tz_id, 
              name 
     FROM users
     WHERE user_id = p_user_id
