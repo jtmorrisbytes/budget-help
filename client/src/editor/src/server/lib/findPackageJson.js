@@ -1,12 +1,12 @@
 // external deps
 const path = require("path");
-const findPackageJson = require("find-package-json");
+const findPackageJson_ = require("find-package-json");
 
 // internal deps
 const defaults = require("./defaults");
 
-module.exports = function findProjectRoot() {
-  packageJson = findPackageJson(__dirname).next();
+module.exports = function findPackageJson() {
+  packageJson = findPackageJson_(__dirname).next();
   while (
     packageJson.done === false &&
     packageJson.value.name !== defaults.projectName

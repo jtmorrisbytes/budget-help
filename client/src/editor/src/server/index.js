@@ -1,8 +1,9 @@
 const express = require("express");
+const path = require("path");
 
-const findProjectRoot = require("./lib/findProjectRoot");
+const findPackageJson = require("./lib/findPackageJson");
 
-clientRootDir = findProjectRoot();
+clientRootDir = path.dirname(findPackageJson().filename);
 
 if (clientRootDir == null) {
   console.log("could not find project root");
