@@ -9,13 +9,13 @@ module.exports = function findPackageJson() {
   packageJson = findPackageJson_(__dirname).next();
   while (
     packageJson.done === false &&
-    packageJson.value.name !== defaults.projectName
+    packageJson.value.name !== defaults.editor.projectName
   ) {
     packageJson = packageJson.next();
     console.log("finding package.json", packageJson.value.name);
   }
 
-  return (packageJson.value || {}).name == defaults.projectName
+  return (packageJson.value || {}).name == defaults.editor.projectName
     ? packageJson
     : null;
 };
