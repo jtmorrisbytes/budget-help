@@ -5,7 +5,6 @@ function Name(props) {
   if (props.edit || localEdit) {
     return (
       <div className="Name edit">
-        <label>Name:</label>
         <input
           type="text"
           value={props.value}
@@ -24,18 +23,25 @@ function Name(props) {
   } else {
     return (
       <div className="Name">
-        <div className="label">Name:</div>{" "}
         <div
           className="value"
           onClick={(event) => {
             updateLocalEdit(true);
           }}
         >
-          {props.value || "(No Name Provided)"}
+          {String(props.value || null)}
         </div>
       </div>
     );
   }
 }
+
+Name.Label = function Label(props) {
+  return props.edit ? (
+    <label>Name:</label>
+  ) : (
+    <div className="Name Label">Name:</div>
+  );
+};
 
 export default Name;

@@ -14,8 +14,13 @@ function App() {
         how often,
 
       */}
-      <Expenses>
-        <Expense name="Brian Parsons" amount={100} />
+      <Expenses display="table">
+        <Expense
+          name="Brian Parsons"
+          amount={100}
+          type="loan"
+          date="11/1/2020"
+        />
       </Expenses>
     </div>
   );
