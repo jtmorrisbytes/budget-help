@@ -1,0 +1,7 @@
+.Expense {
+  /* display: contents; */
+}
+
+.Expense .Name {
+  grid-area: "name";
+}

@@ -1,6 +1,8 @@
 import React from "react";
 import Expenses from "../Expenses";
 
+import { ApiContext } from "../Api";
+
 import Name from "./Name/Name";
 import Frequency from "./Frequency/Frequency";
 import Type from "./Type/Type";
@@ -34,38 +36,25 @@ function Display(props) {
 }
 
 function Expense(props) {
-  return (
-    <Display type={props.display}>
-      <Name
-        onChange={props.onNameChange}
-        value={props.name}
-        display={props.display}
-      />
-      <Amount
-        onChange={props.onAmountChange}
-        value={props.amount}
-        display={props.display}
-      />
-      <Type
-        value={props.expenseType}
-        onChange={props.onExpenseTypeChange}
-        value={props.type}
-        display={props.display}
-      />
-      <Frequency display={props.display} />
-      <Date
-        onChange={props.onStartDateChange}
-        value={props.startDate}
-        display={props.display}
-      ></Date>
-
-      <EndDate
-        onChange={props.onEndDateChange}
-        value={props.endDate}
-        display={props.display}
-      />
-    </Display>
-  );
+  return (props.columns || []).map((column) => {
+    let Component = () => null;
+    switch ((column.name || column).toLowerCase()) {
+      case "name":
+        Component = Name;
+        break;
+      case "type":
+        Component = Type;
+        break;
+      case "frequency":
+        Component = Frequency;
+        break;
+      case "purpose":
+        Component = Purpose;
+      case "amount":
+        Component = Amount;
+    }
+    return <Component onChange={props.onChange} />;
+  });
 }
 
 // seperate component
@@ -75,5 +64,6 @@ Expense.Frequency = Frequency;
 Expense.Purpose = Purpose;
 Expense.Amount = Amount;
 Expense.Type = Type;
+Expense.Date = Date;
 
 export default Expense;

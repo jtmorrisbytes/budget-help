@@ -1,26 +1,10 @@
 import React, { useState } from "react";
 import Expense from "./Expense/Expense";
 
-// function Display(props) {
-//   if (props.type === "table") {
-//     return (
-//       <table className="Expenses Display">
-//         <thead>
-//           <tr>
-//             <td>Name</td>
-//             <td>Amount</td>
-//             <td>Type</td>
-//             <td>Frequency</td>
-//             <td>Start Date</td>
-//             <td>End Date</td>
-//           </tr>
-//         </thead>
-//         <tbody>{props.children}</tbody>
-//       </table>
-//     );
-//   } else return <div className="Expenses Display">{props.children}</div>;
-// }
-// lookup table
+import "./Expenses.scss";
+import "./Expense/Expense.css";
+
+import ExpenseApi from "./Api";
 
 function capitalizeFirstLetter(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -71,19 +55,62 @@ const Display = {
   },
 };
 function Expenses(props) {
-  let [expenses, updateExpenses] = useState([{ name: "Brian Parsons" }]);
-  let RenderExpenses = Display[props?.display?.toUpperCase()] || Display.Table;
+  let [expenses, updateExpenses] = useState([
+    {
+      name: "Brian Parsons",
+      purpose: "Debt bailout",
+      type: "loan",
+      amount: 1,
+      startDate: "11/1/2020",
+      endDate: "",
+    },
+    { name: "Kay Morris" },
+  ]);
 
   return (
     <div className="Expenses">
       <button>Add Expense</button>
-      <RenderExpenses
-        columns={props.columns || defaultColumns}
-        expenses={expenses}
-        onChange={(e, column) => {
-          console.log("something changed in expenses", e, column);
-        }}
-      ></RenderExpenses>
+      <table>
+        <ExpenseApi
+          // className={""}
+
+          limit={50}
+          renderHeader={(columns) => {
+            return (
+              <thead>
+                <tr>
+                  {columns.map((column) => {
+                    return (
+                      <td>{column.name || capitalizeFirstLetter(column)}</td>
+                    );
+                  })}
+                </tr>
+              </thead>
+            );
+          }}
+          renderBody={(props) => {
+            return <tbody>{props.children}</tbody>;
+          }}
+          renderName={(props) => {
+            return (
+              <td>
+                <Expense.Name value={props.value} onChange={props.onChange} />
+              </td>
+            );
+          }}
+          renderAmount={(props) => {
+            return (
+              <td>
+                <Expense.Amount value={props.value} />
+              </td>
+            );
+          }}
+          renderEach={(props) => {
+            console.log("renderEach", props);
+            return <tr>{props.children}</tr>;
+          }}
+        />
+      </table>
     </div>
   );
 }

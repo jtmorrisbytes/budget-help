@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 
 function Name(props) {
+  console.log("Component === Name, props", props);
   let [localEdit, updateLocalEdit] = useState(false);
   if (props.edit || localEdit) {
     return (
