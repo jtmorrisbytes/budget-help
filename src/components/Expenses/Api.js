@@ -30,51 +30,36 @@ function getAllExpenses() {
   ];
 }
 
+function Body(props) {
+  return <Context.Consumer>{(value) => {}}</Context.Consumer>;
+}
+function Add(props) {
+  return (
+    <Context.Consumer>
+      {(value) => {
+        return props.render();
+      }}
+    </Context.Consumer>
+  );
+}
+function Each(props) {
+  return (
+    <Context.Consumer>
+      {(value) => {
+        return <div>hello from each</div>;
+      }}
+    </Context.Consumer>
+  );
+}
 function Api(props) {
   let [expenses, setExpenses] = useState(getAllExpenses());
-  let columns = [
-    resCol(props.renderName, "name"),
-    resCol(props.renderPurpose, "purpose"),
-    resCol(props.renderType, "type"),
-    resCol(props.renderAmount, "amount"),
-  ].filter((v) => v !== null);
-  let Body = props.renderBody || ((props) => <>{props.children}</>);
-  let RenderEach = props.renderEach || ((props) => <>{props.children}</>);
-
   return (
     <>
-      {typeof props.renderHeader === "function"
-        ? props.renderHeader(columns)
-        : null}
-      <Body>
-        {expenses.map((expense, index) => {
-          return (
-            <RenderEach expenseId={expense.id}>
-              {columns.map((column) => {
-                let RenderColumn =
-                  props[`render${cFL(column)}`] || RenderColumnDefault;
-
-                return (
-                  <RenderColumn
-                    column={column}
-                    expenseId={expense.id}
-                    value={expense[column]}
-                    onChange={(e) => {
-                      console.log(
-                        "oh cool! a component's value changed",
-                        e,
-                        column
-                      );
-                    }}
-                  ></RenderColumn>
-                );
-              })}
-            </RenderEach>
-          );
-        })}
-      </Body>
+      <Context.Provider value={expenses}>{props.children}</Context.Provider>
     </>
   );
 }
-
+Api.Body = Body;
+Api.Add = Add;
+Api.Each = Each;
 export default Api;

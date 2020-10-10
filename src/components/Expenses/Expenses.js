@@ -5,6 +5,7 @@ import "./Expenses.scss";
 import "./Expense/Expense.css";
 
 import ExpenseApi from "./Api";
+import Api from "./Api";
 
 function capitalizeFirstLetter(s) {
   return s.charAt(0).toUpperCase() + s.slice(1);
@@ -71,45 +72,15 @@ function Expenses(props) {
     <div className="Expenses">
       <button>Add Expense</button>
       <table>
-        <ExpenseApi
-          // className={""}
-
-          limit={50}
-          renderHeader={(columns) => {
-            return (
-              <thead>
-                <tr>
-                  {columns.map((column) => {
-                    return (
-                      <td>{column.name || capitalizeFirstLetter(column)}</td>
-                    );
-                  })}
-                </tr>
-              </thead>
-            );
-          }}
-          renderBody={(props) => {
-            return <tbody>{props.children}</tbody>;
-          }}
-          renderName={(props) => {
-            return (
-              <td>
-                <Expense.Name value={props.value} onChange={props.onChange} />
-              </td>
-            );
-          }}
-          renderAmount={(props) => {
-            return (
-              <td>
-                <Expense.Amount value={props.value} />
-              </td>
-            );
-          }}
-          renderEach={(props) => {
-            console.log("renderEach", props);
-            return <tr>{props.children}</tr>;
-          }}
-        />
+        <ExpenseApi>
+          <ExpenseApi.Add
+            render={(props) => {
+              return <button {...props}>Add Something!</button>;
+            }}
+          />
+          {/* <ExpenseApi.Header render={()=>{}}> */}
+          {/* <ExpenseApi.Each.Column></ExpenseApi.Each.Column> */}
+        </ExpenseApi>
       </table>
     </div>
   );
