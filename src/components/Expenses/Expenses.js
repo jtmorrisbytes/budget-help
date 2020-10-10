@@ -4,7 +4,7 @@ import Expense from "./Expense/Expense";
 import "./Expenses.scss";
 import "./Expense/Expense.css";
 
-import ExpenseApi from "./Api";
+import ExpenseApi, { connectExpenseApi } from "./Api";
 import Api from "./Api";
 
 function capitalizeFirstLetter(s) {
@@ -56,33 +56,18 @@ const Display = {
   },
 };
 function Expenses(props) {
-  let [expenses, updateExpenses] = useState([
-    {
-      name: "Brian Parsons",
-      purpose: "Debt bailout",
-      type: "loan",
-      amount: 1,
-      startDate: "11/1/2020",
-      endDate: "",
-    },
-    { name: "Kay Morris" },
-  ]);
+  console.log("Expenses props", props);
 
   return (
     <div className="Expenses">
-      <button>Add Expense</button>
-      <table>
-        <ExpenseApi>
-          <ExpenseApi.Add
-            render={(props) => {
-              return <button {...props}>Add Something!</button>;
-            }}
-          />
-          {/* <ExpenseApi.Header render={()=>{}}> */}
-          {/* <ExpenseApi.Each.Column></ExpenseApi.Each.Column> */}
-        </ExpenseApi>
-      </table>
+      {props.expenses.map((expense, index) => {
+        return (
+          <div key={expense.id || index} className="Expense">
+            <div className="Name">{expense.name}</div>
+          </div>
+        );
+      })}
     </div>
   );
 }
-export default Expenses;
+export default connectExpenseApi(Expenses);
