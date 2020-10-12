@@ -3,7 +3,7 @@ import Axios from "axios";
 
 import ApiManager from "../../components/ApiManager/ApiManager";
 
-let API_URL = process.env.REACT_APP_API_URL || "/api";
+// let API_URL = process.env.REACT_APP_API_URL || "/api";
 let expenses = [
   {
     name: "Brian Parsons",
@@ -30,13 +30,12 @@ function RenderColumnDefault(props) {
   return <div className={`Column ${cFL(props.column)}`}></div>;
 }
 
-function updateExpense(id, column, value) {}
-function getAllExpenses() {
+function updateOne(id, column, value) {}
+function _getAll(API_URL) {
   return Axios.get(`${API_URL}/expenses`, {
     headers: { Accept: "application/json" },
   })
     .then((response) => {
-      console.log("getallexpenses response", response);
       if (String(response.headers["content-type"]).includes("application/json"))
         if (Array.isArray(response.data)) {
           return response.data;
@@ -64,6 +63,7 @@ function getColumns() {
 }
 
 function Api(props) {
+  let getAll = _getAll.bind(null, props.API_BASE_PATH);
   let [context, updateContext] = useState({
     expenses: [],
     columns: [],
@@ -76,11 +76,13 @@ function Api(props) {
     onUpdateFrequency: () => {},
     onCreate: () => {},
     onDelete: () => {},
+    getAll,
+    getOne: () => {},
   });
   // get expenses on mount
   useEffect(() => {
-    console.info("Expenses Api initialization");
-    getAllExpenses().then((expenses) => {
+    console.debug("Expenses Api initialization");
+    getAll().then((expenses) => {
       if (Array.isArray(expenses)) {
         updateContext({ ...context, expenses, loading: false, initial: false });
       }
@@ -89,7 +91,7 @@ function Api(props) {
   useEffect(() => {
     if (context.initial === false) {
       updateContext({ ...context, loading: true });
-      getAllExpenses().then((newExpenses) => [
+      getAll().then((newExpenses) => [
         updateContext({ ...context, expenses, loading: false }),
       ]);
     }

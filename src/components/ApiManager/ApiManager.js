@@ -42,7 +42,9 @@ function ApiManager(props) {
   );
 }
 function connect(Component) {
+  console.debug("ApiManager Connecting component", Component);
   return function ApiManagerConnected(props) {
+    console.debug("creating ApiManagerConnected with props", props);
     return (
       <ManagerContext.Consumer>
         {(context) => {
@@ -53,7 +55,7 @@ function connect(Component) {
               API_PORT={context.API_PORT}
               API_HOST={context.API_HOST}
               API_BASE_PATH={context.API_BASE_PATH}
-              API_URL={`${context.API_PROTOCOL}://${context.API_HOST}:${context.API_PORT}/${context.API_BASE_PATH}`}
+              API_URL={`${context.API_PROTOCOL}://${context.API_HOST}:${context.API_PORT}${context.API_BASE_PATH}`}
             />
           );
         }}
