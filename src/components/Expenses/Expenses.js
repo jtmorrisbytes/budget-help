@@ -57,17 +57,24 @@ const Display = {
 };
 function Expenses(props) {
   console.log("Expenses props", props);
+  if (props.intial === true) {
+    return <div className="Expenses">starting up... please wait</div>;
+  } else if (props.loading === true) {
+    return <div>spinner</div>;
+  }
 
   return (
-    <div className="Expenses">
+    <table className="Expenses">
       {props.expenses.map((expense, index) => {
         return (
-          <div key={expense.id || index} className="Expense">
-            <div className="Name">{expense.name}</div>
-          </div>
+          <tr key={expense.id || index} className="Expense">
+            <td className="Name">{expense.name}</td>
+            <td className="Purpose">{expense.purpose} </td>
+            <td className="Amount">{expense.amount}</td>
+          </tr>
         );
       })}
-    </div>
+    </table>
   );
 }
 export default connectExpenseApi(Expenses);

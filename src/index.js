@@ -5,11 +5,14 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 import ExpenseApi from "./components/Expenses/Api";
+import ApiManager from "./components/ApiManager/ApiManager";
 ReactDOM.render(
   <React.StrictMode>
-    <ExpenseApi>
-      <App />
-    </ExpenseApi>
+    <ApiManager>
+      <ExpenseApi>
+        <App />
+      </ExpenseApi>
+    </ApiManager>
   </React.StrictMode>,
   document.getElementById("root")
 );

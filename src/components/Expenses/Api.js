@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+
+import ApiManager from "../../components/ApiManager/ApiManager";
+
 let API_URL = process.env.REACT_APP_API_URL || "/api";
 let expenses = [
   {
@@ -61,16 +64,12 @@ function getColumns() {
 }
 
 function Api(props) {
-  let [expenses, setExpenses] = useState([]);
-
-  let [columns, updateColumns] = useState(getColumns());
-  let [error, setError] = useState({});
-  let [loading, setLoadingState] = useState(false);
   let [context, updateContext] = useState({
-    expenses,
-    columns,
-    error,
-    loading,
+    expenses: [],
+    columns: [],
+    error: {},
+    initial: true,
+    loading: true,
     onUpdateName: () => {},
     onUpdateType: () => {},
     onUpdatePurpose: () => {},
@@ -80,13 +79,21 @@ function Api(props) {
   });
   // get expenses on mount
   useEffect(() => {
+    console.info("Expenses Api initialization");
     getAllExpenses().then((expenses) => {
       if (Array.isArray(expenses)) {
-        setExpenses(expenses);
-        updateContext({ ...context, expenses });
+        updateContext({ ...context, expenses, loading: false, initial: false });
       }
     });
   }, []);
+  useEffect(() => {
+    if (context.initial === false) {
+      updateContext({ ...context, loading: true });
+      getAllExpenses().then((newExpenses) => [
+        updateContext({ ...context, expenses, loading: false }),
+      ]);
+    }
+  }, [context.expenses, context.initial]);
 
   return <Context.Provider value={context}>{props.children}</Context.Provider>;
 }
@@ -108,6 +115,7 @@ export function connectExpenseApi(Component) {
               error={context.error}
               expenses={context.expenses}
               loading={context.loading}
+              initial={context.initial}
             />
           );
         }}
@@ -116,4 +124,4 @@ export function connectExpenseApi(Component) {
   };
 }
 
-export default Api;
+export default ApiManager.connect(Api);
